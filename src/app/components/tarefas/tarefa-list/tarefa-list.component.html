@@ -1,0 +1,83 @@
+<div class="container">
+
+   <h1>Listando Tarefas</h1>
+
+   <button routerLink="create" class="mat-elevation-z8" mat-stroked-button color="primary">Nova tarefa</button>
+
+   <mat-form-field appearance="outline">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+   </mat-form-field>
+
+   <mat-radio-group color="primary">
+      <mat-radio-button (click)="orderByStatus(0)" value="0">Pendente</mat-radio-button>
+      <mat-radio-button (click)="orderByStatus(1)" value="1">Em adamento</mat-radio-button>
+      <mat-radio-button (click)="orderByStatus(2)" value="2">Concluída</mat-radio-button>
+   </mat-radio-group>
+
+   <div class="mat-elevation-z8">
+
+      <table mat-table [dataSource]="dataSource">
+
+         <ng-container matColumnDef="statusTarefaCheckbox">
+            <th mat-header-cell *matHeaderCellDef> Status da Tarefa </th>
+            <td mat-cell *matCellDef="let element">
+               <mat-checkbox
+               [checked]="element.statusTarefa === 'CONCLUIDO'"
+               (change)="atualizarStatusTarefa($event.checked, element)"
+               color="primary"
+               [disabled]="element.statusTarefa === 'CONCLUIDO'">  <!-- Desabilita se já concluído -->
+               </mat-checkbox>
+            </td>
+         </ng-container>
+
+         <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+         </ng-container>
+
+         <ng-container matColumnDef="titulo">
+            <th mat-header-cell *matHeaderCellDef> Título </th>
+            <td mat-cell *matCellDef="let element"> {{element.titulo}} </td>
+         </ng-container>
+
+         <ng-container matColumnDef="descricao">
+            <th mat-header-cell *matHeaderCellDef> Descricao </th>
+            <td mat-cell *matCellDef="let element"> {{element.descricao}} </td>
+         </ng-container>
+
+         <ng-container matColumnDef="dataCriacao">
+            <th mat-header-cell *matHeaderCellDef> Data de Criação </th>
+            <td mat-cell *matCellDef="let element"> {{element.dataCriacao}} </td>
+         </ng-container>
+
+        <ng-container matColumnDef="dataVencimento">
+            <th mat-header-cell *matHeaderCellDef> Data de Vencimento </th>
+            <td mat-cell *matCellDef="let element"> {{element.dataVencimento}} </td>
+         </ng-container>
+
+         <ng-container matColumnDef="statusTarefa">
+            <th mat-header-cell *matHeaderCellDef> Status da Tarefa </th>
+            <td mat-cell *matCellDef="let element"> {{retornaStatus(element.statusTarefa)}} </td>
+         </ng-container>
+
+         <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef> Ações </th>
+            <td mat-cell *matCellDef="let element">
+               <a routerLink="update/{{ element.id }}">
+                  <i class="material-icons edit">edit</i>
+               </a>
+               <a routerLink="delete/{{ element.id }}">
+                  <i class="material-icons delete">delete</i>
+               </a>
+            </td>
+         </ng-container>
+
+         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 2, 10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+   </div>
+
+</div>

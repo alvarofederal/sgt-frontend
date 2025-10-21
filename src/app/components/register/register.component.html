@@ -1,0 +1,55 @@
+<div class="container">
+    <form class="form mat-elevation-z8">
+
+        <h1>To-Do-List - Cadastro de Usuário</h1>
+        <img src="assets/img/login-image.svg" alt="To-Do-List">
+
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input 
+            [formControl]="nome"
+            required
+            [(ngModel)]="userCreate.nome" 
+            name="email" 
+            matInput 
+            placeholder="Ex. fulano@mail.com">
+            <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+
+      
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>E-mail</mat-label>
+            <input 
+            [formControl]="email"
+            required
+            [(ngModel)]="userCreate.email" 
+            name="email" 
+            matInput 
+            placeholder="Ex. fulano@mail.com">
+            <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Senha</mat-label>
+            <input 
+            [formControl]="password"
+            required
+            [(ngModel)]="userCreate.password" 
+            name="senha" 
+            type="password" 
+            matInput 
+            placeholder="Ex. 123">
+            <mat-icon matSuffix>password</mat-icon>
+        </mat-form-field>
+
+        <button (click)="registry()" [disabled]="!validaCampos()" class="full-width mat-elevation-z4" mat-stroked-button color="primary">Cadastrar</button>
+
+        <p class="flex flex-col items-center justify-between mb-0">
+            <a routerLink="/login" >Acesse!</a>
+        </p>
+    </form>
+
+
+
+</div>
+

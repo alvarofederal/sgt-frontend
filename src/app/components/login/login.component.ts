@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -28,12 +29,23 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void { }
 
   logar() {
-    this.service.authenticate(this.creds).subscribe(resposta => {
-      this.service.successfulLogin(resposta.headers.get('Authorization').substring(7));
-      this.router.navigate([''])
-    }, () => {
-      this.toast.error('Usuário e/ou senha inválidos');
-    })
+    this.service.authenticate(this.creds).subscribe({
+      next: (resposta: HttpResponse<any>) => {  // ← resposta é HttpResponse
+        const authHeader = resposta.headers.get('Authorization');
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+          const token = authHeader.substring(7);  // Remove "Bearer " (7 chars)
+          this.service.successfulLogin(token);
+          this.router.navigate(['']);
+        } else {
+          console.error('Header Authorization inválido ou ausente:', authHeader);
+          this.toast.error('Falha no login: Token não encontrado');
+        }
+      },
+      error: (erro) => {
+        console.error('Erro no login:', erro);
+        this.toast.error('Usuário e/ou senha inválidos');
+      }
+    });
   }
 
   validaCampos(): boolean {
