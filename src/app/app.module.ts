@@ -36,7 +36,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { LoginComponent } from './components/login/login.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthInterceptorProvider } from './interceptors/auth.interceptor';
-import { provideEnvironmentNgxMask } from 'ngx-mask';
+import { provideEnvironmentNgxMask, provideNgxMask, NgxMaskDirective } from 'ngx-mask';
 import { TarefaCreateComponent } from './components/tarefas/tarefa-create/tarefa-create.component';
 import { TarefaUpdateComponent } from './components/tarefas/tarefa-update/tarefa-update.component';
 import { TarefaListComponent } from './components/tarefas/tarefa-list/tarefa-list.component';
@@ -46,6 +46,7 @@ import { UsuarioUpdateComponent } from './components/usuario/usuario-update/usua
 import { UsuarioDeleteComponent } from './components/usuario/usuario-delete/usuario-delete.component';
 import { UsuarioListComponent } from './components/usuario/usuario-list/usuario-list.component';
 import { RegisterComponent } from './components/register/register.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -92,19 +93,29 @@ import { RegisterComponent } from './components/register/register.component';
     MatNativeDateModule,
     // Toastr
     ToastrModule.forRoot({
-      timeOut: 4000,
-      closeButton: true,
-      progressBar: true
-    })
-  ],
+        timeOut: 4000,
+        closeButton: true,
+        progressBar: true
+    }),
+    NgxMaskDirective
+],
   providers: [
     AuthInterceptorProvider,
+    DatePipe,
     provideEnvironmentNgxMask(),
-    { provide: DateAdapter, useClass: NativeDateAdapter, deps: [MAT_DATE_LOCALE] },
-  { provide: MAT_DATE_FORMATS, useValue: {
-      parse: { dateInput: 'DD/MM/YYYY' },
-      display: { dateInput: 'DD/MM/YYYY', monthYearLabel: 'MMM YYYY', dateA11yLabel: 'LL', monthYearA11yLabel: 'MMMM YYYY' }
-    }
+    provideNgxMask(),
+    { provide: DateAdapter, 
+      useClass: NativeDateAdapter, 
+      deps: [MAT_DATE_LOCALE] 
+    },
+    { 
+      provide: MAT_DATE_LOCALE, 
+      useValue: 'pt-BR'
+    },
+    { provide: MAT_DATE_FORMATS, useValue: {
+      parse: { dateInput: 'dd/MM/yyyy' },
+      display: { dateInput: 'dd/MM/yyyy'}
+    },
   }
   ],
   bootstrap: [AppComponent]

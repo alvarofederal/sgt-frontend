@@ -21,9 +21,10 @@ export class TarefaUpdateComponent  implements OnInit {
     statusTarefa:     0
   }
 
-  titulo:       FormControl =  new FormControl(null, Validators.minLength(3));
-  descricao:    FormControl =  new FormControl(null, Validators.minLength(3));
-  statusTarefa: FormControl = new FormControl(null, [Validators.required]);
+  titulo:         FormControl =  new FormControl(null, Validators.minLength(3));
+  descricao:      FormControl =  new FormControl(null, Validators.minLength(3));
+  statusTarefa:   FormControl = new FormControl(null, [Validators.required]);
+  dataVencimento: FormControl = new FormControl(null, [Validators.required]);
 
   constructor(
     private service: TarefaService,
@@ -34,12 +35,14 @@ export class TarefaUpdateComponent  implements OnInit {
 
   ngOnInit(): void {
     this.tarefa.id = this.route.snapshot.paramMap.get('id');
+    console.log("Tarefa carregada para edição 1:", this.tarefa);
     this.findById();
    }
 
   findById(): void {
     this.service.findById(this.tarefa.id).subscribe(resposta => {
       this.tarefa = resposta;
+      console.log("Tarefa carregada para edição 2:", this.tarefa);
     })
   }
 
@@ -60,7 +63,7 @@ export class TarefaUpdateComponent  implements OnInit {
   }
 
   validaCampos(): boolean {
-    return this.titulo.valid && this.descricao.valid && this.statusTarefa.valid;
+    return this.titulo.valid && this.descricao.valid && this.statusTarefa.valid&& this.dataVencimento.valid;
   }
 
   retornaStatus(status: any): string {

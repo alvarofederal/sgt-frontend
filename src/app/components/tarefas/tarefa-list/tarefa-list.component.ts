@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { Tarefa } from 'src/app/models/tarefa';
@@ -16,7 +15,7 @@ export class TarefaListComponent  implements OnInit {
   ELEMENT_DATA: Tarefa[] = []
   FILTERED_DATA: Tarefa[] = []
   
-  displayedColumns: string[] = ['statusTarefaCheckbox', 'id', 'titulo', 'descricao', 'dataCriacao', 'dataVencimento', 'statusTarefa', 'acoes'];
+  displayedColumns: string[] = ['statusTarefaCheckbox', 'titulo', 'descricao', 'dataCriacao', 'dataVencimento', 'statusTarefa', 'acoes'];
   dataSource = new MatTableDataSource<Tarefa>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

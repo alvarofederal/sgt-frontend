@@ -4,9 +4,8 @@ import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TarefaService } from 'src/app/services/tarefa.service';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-
-
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-tarefa-create',
@@ -40,7 +39,7 @@ export class TarefaCreateComponent implements OnInit {
 
   create(): void {
     this.service.create(this.tarefa).subscribe(() => {
-      this.toast.success('Tarefa cadastrado com sucesso', 'Cadastro');
+      this.toast.success('Tarefa cadastrada com sucesso', 'Cadastro');
       this.router.navigate(['tarefas'])
     }, ex => {
       if(ex.error.errors) {
@@ -56,4 +55,5 @@ export class TarefaCreateComponent implements OnInit {
   validaCampos(): boolean {
     return this.titulo.valid && this.descricao.valid && this.statusTarefa.valid;
   }
+
 }
